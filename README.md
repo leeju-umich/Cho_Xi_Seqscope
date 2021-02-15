@@ -1,12 +1,83 @@
-# Cho_Xi_Seqscope
+# Seq-Scope Data Analysis Pipeline
+
+## Overview
+
 Seq-Scope is a spatial barcoding technology with a resolution almost comparable to an optical microscope. Seq-Scope is based on a solid-phase amplification of randomly barcoded single-molecule oligonucleotides using an Illumina sequencing-by-synthesis platform. The resulting clusters annotated with spatial coordinates are processed to expose RNA-capture moiety. These RNA-capturing barcoded clusters define the pixels of Seq-Scope that are approximately 0.5-1 μm apart from each other. For more information, please refer to the link''.
 
 This github page includes the pipepline and codes for processing the data, including tissue boundary detection, alignment, and downstream analysis(gridding, collapsing, clustering analysis, etc.).
 
-## Requirements
-linux, STARSolo>=2.7.5c, seqtk, R, Python, perl...
+## Getting Started
 
-## Data Access
+### Required Sofware Tools
+
+You need to install the following software tools before using this pipeline. Linux operating system is necessary.
+* STARSolo>=2.7.5c
+* seqtk
+* R 
+  * Seurat
+* Python
+* perl...
+
+### Example Data
+
+The dataset used for SeqScope paper will be available in GEO and SRA, but in the meantime, please contact Jun Hee Lee (leeju@umich.edu) or Jingyue Xi (jyxi@umich.edu) regarding the access. Here we assume that you already have access to these example dataset. 
+
+* 1st-seq data (typically from MiSeq)
+  - abc_R1.fastq.gz
+  - abc_R2.fastq.gz
+* 2st-seq data (typically from NovaSeq or HiSeq X)
+  - def_R1.fastq.gz
+  - def_R2.fastq.gz
+* Reference sequence and STAR index
+  - mm10_ghi.fasta
+  - mm10_ghi.fasta
+  - mm10_ghi.gtf
+  - ...
+
+### Overall Workflow
+
+(I would put a diagram from powerpoint describe each step).
+
+### Step 1. Process 1st-seq data to associate HDMI barcode with spatial coordinate
+
+This step does blahblah..
+
+```
+bash step1-abc.sh abc_R1.fastq.gz abc_R2.fastq.gz abc_step1_out
+```
+
+After running this step, you will have the following files.
+
+```
+abc_step_out.whitelist.tsv
+abc_step_out.barcode.map.tsv
+```
+
+Visualize the spatial map of HDMI barcode...
+
+### Step 2. Modify the format of 2nd-seq to be compatible with STARsolo.
+
+
+
+### Step 3. 
+
+### Step 4. Generate digital expression matrix and associated spatial map.
+
+....
+
+Finally, after these steps, the final output files you will find most useful will be the following:
+- [outprefix].dge.tsv.gz
+- [outprefix].spatial.map.tsv.gz
+- [outprefix].grided.dge.tsv.gz
+- ...
+
+In addition, you will have the following additional files that may be helpful to understand the details of the data
+
+- [outprefix].seqscopetools.bam
+- [outprefix].seqscopetools.filtered.bam
+- [outprefix].....
+
+
 The two datasets used in the paper (link) can be found as following:
 - Liver Data
   - 1st Seq data: https://drive.google.com/file/d/1vv6Uy7Ovvw-Sx3WCnRw0tgwuyvrKdVfo/view?usp=sharing
