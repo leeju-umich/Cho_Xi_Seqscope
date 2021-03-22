@@ -33,6 +33,7 @@ The dataset used for Seq-Scope paper will be available in GEO and SRA, but in th
 
 
 ### Overall Workflow
+![Workflow](https://github.com/jyxi7676/Cho_Xi_Seqscope/edit/jyxi7676-patch-1/Workflow.png)
 
 (I would put a diagram from powerpoint describe each step).
 ### Tissue Boundary Estimation
