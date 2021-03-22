@@ -2,9 +2,9 @@
 
 ## Overview
 
-Seq-Scope is a spatial barcoding technology with a resolution almost comparable to an optical microscope. Seq-Scope is based on a solid-phase amplification of randomly barcoded single-molecule oligonucleotides using an Illumina sequencing-by-synthesis platform. The resulting clusters annotated with spatial coordinates are processed to expose RNA-capture moiety. These RNA-capturing barcoded clusters define the pixels of Seq-Scope that are approximately 0.5-1 μm apart from each other. For more information, please refer to the link''.
+Seq-Scope is a spatial barcoding technology with a resolution almost comparable to an optical microscope. Seq-Scope is based on a solid-phase amplification of randomly barcoded single-molecule oligonucleotides using an Illumina sequencing-by-synthesis platform. The resulting clusters annotated with spatial coordinates are processed to expose RNA-capture moiety. These RNA-capturing barcoded clusters define the pixels of Seq-Scope that are approximately 0.7-1 μm apart from each other. For more information, please refer to the link (put paper link here???).
 
-This github page includes the pipepline and codes for processing the data, including tissue boundary detection, alignment, and downstream analysis(gridding, collapsing, clustering analysis, etc.).
+This Github page includes the pipepline and codes for processing the data, including tissue boundary detection, alignment, and downstream analysis(gridding, collapsing, clustering analysis, etc.).
 
 ## Getting Started
 
@@ -14,61 +14,140 @@ You need to install the following software tools before using this pipeline. Lin
 * STARSolo>=2.7.5c
 * seqtk
 * R 
-  * Seurat
 * Python
-* perl...
+* perl
 
 ### Example Data
-
-The dataset used for SeqScope paper will be available in GEO and SRA, but in the meantime, please contact Jun Hee Lee (leeju@umich.edu) or Jingyue Xi (jyxi@umich.edu) regarding the access. Here we assume that you already have access to these example dataset. 
+The dataset used for Seq-Scope paper will be available in GEO and SRA, but in the meantime, please contact Jun Hee Lee (leeju@umich.edu) or Jingyue Xi (jyxi@umich.edu) regarding the access. Here we assume that you already have access to these example dataset. 
 
 * 1st-seq data (typically from MiSeq)
-  - abc_R1.fastq.gz
-  - abc_R2.fastq.gz
-* 2st-seq data (typically from NovaSeq or HiSeq X)
-  - def_R1.fastq.gz
-  - def_R2.fastq.gz
-* Reference sequence and STAR index
-  - mm10_ghi.fasta
-  - mm10_ghi.fasta
+  - abc_SeqScope_1st_R1.fastq.gz
+* 2nd-seq data (typically from NovaSeq or HiSeq X)
+  - def_SeqScope_2nd_R1.fastq.gz
+  - def_SeqScope_2nd_R2.fastq.gz
+* Reference sequence and STAR index (Not sure I wanna include this )
+  - mm10.fasta
   - mm10_ghi.gtf
-  - ...
+  
+### Install the packages (update)
+
 
 ### Overall Workflow
 
 (I would put a diagram from powerpoint describe each step).
+### Tissue Boundary Estimation
+In this section, we process 1st-seq data to extract spatial coordinates and match the HDMIs from 1st-seq to HDMIs from 2nd-seq. The bash script takes two file paths and outputs in the current working directory
 
-### Step 1. Process 1st-seq data to associate HDMI barcode with spatial coordinate
+ * Input files:
+  ```
+  abc_SeqScope_1st.fastq.gz:  path of read file from 1st-Seq
+  abc_SeqScope_2nd_R1.fastq.gz: path of read1 from 2nd-Seq
+  ```
 
-This step does blahblah..
+ * Codes:
+```
+bash extractCoord.sh [abc_SeqScope_1st.fastq.gz] [abc_SeqScope_2nd_R1.fastq.gz]
+```
+* Output:
+```
+spatialcoordinates.txt
+whitelists.txt
+HDMI_SeqScope_2nd.txt
+```
+To Visualize the spatial map of HDMI barcode,please run (update)
+```
+update this
+```
+
+
+### STARsolo Alignment and Data Binning
+In this subsection, we firstly preprocess the data and run alignment with reference genome using STARsolo. Then  the digital expression matrix(DGE) is binned into square grids with user defined side size.
+
+#### Alignment
+This step is to preprocess the fastq files and to  align the data
+* Input
+```
+abc_SeqScope_2nd_R1.fastq.gz: Read1 from SeqScope_2nd files
+abc_SeqScope_2nd_R2.fastq.gz: Read2 from SeqScope_2nd files
+whitelists.txt: whitelists of barcodes from output from previous section
+outprefix: prefix for STARsolo output
+starpath: path for STAR software
+seqtkpath: path for seqtk tool
+geneIndex: reference genome directory
+```
+* Code
+```
+bash align.sh [abc_SeqScope_2nd_R1.fastq.gz] [abc_SeqScope_2nd_R2.fastq.gz] [whitelists.txt] [outprefix] [starpath] [seqtkpath] [geneIndex]
+```
+* Output
+```
+#The most important ones from STARsolo output:
+prefixSolo.out/GeneFull/matrix.mtx
+prefixSolo.out/GeneFull/barcodes.mtx
+prefixSolo.out/GeneFull/features.mtx
+```
+#### Data Binning
+DGE from STARsolo are binned into square grids. In our paper, we tried simple square binning and sliding window binning. Currenly we can only run sliding window binning o a sub-field of the image. We would improve this and make updates in the near future 
+##### Simple Square Binning
+* Input
+```
+[seqscope1st]: "MiSeq" or "HiSeq"
+[DGEdir]: directory path for DGE from STARsolo output that stores matrix.mtx,features.tsv,barcodes.tsv
+[spatial]: txt file that stores spatial coordinates. This file is 'spatialcoordinates.txt' from  extractCoord.sh
+[tiles]:a vector of tile numbers that the user is interested in
+[nrow]: number of rows for super tile
+[ncol]: number of columns for super tile
+[sidesize]: side size of squre grids
+[outpath]: output directory path
+
 
 ```
-bash step1-abc.sh abc_R1.fastq.gz abc_R2.fastq.gz abc_step1_out
+* Code
+```
+#This is an exmaple codes
+DGEdir = '~/scrna/leejun/ngst/fastqs/HiSeq/ColonCombAll/analysis/align/ColonCombAll_Starsolo_trimA10_bottomSolo.out/Gene/raw'
+spatial = '~/scrna/leejun/ngst/fastqs/MiSeq-DraI-100pM-mbcore-RD4-revHDMIs-pos-uniq.txt'
+#colon: 
+tiles = c(2103:2106,2110:2114,2118:2119)
+nrow = 2
+ncol=6
+sidesize=300 #300units=10um
+outpath = '/net/fantasia/home/jyxi/scrna/leejun/ngst/fastqs/HiSeq/ColonCombAll/analysis/Seurat/grid_10um_Gene/'
+getCollapsedGrid('MiSeq',DGEdir,spatial,tiles,nrow,ncol,sidesize,outpath)
+```
+* Output
+```
+simpleGrids.RDS
+```
+##### Sliding window binning(sub-field)
+* Input
+```
+```
+* Code
+```
+```
+* Output
+```
+slidingGrids.RDS
 ```
 
-After running this step, you will have the following files.
-
-```
-abc_step_out.whitelist.tsv
-abc_step_out.barcode.map.tsv
-```
-
-Visualize the spatial map of HDMI barcode...
-
-### Step 2. Modify the format of 2nd-seq to be compatible with STARsolo.
 
 
 
-### Step 3. 
 
-### Step 4. Generate digital expression matrix and associated spatial map.
 
-....
 
-Finally, after these steps, the final output files you will find most useful will be the following:
+After running this step,the final output files you will find most useful will be the following:
 - [outprefix].dge.tsv.gz
 - [outprefix].spatial.map.tsv.gz
 - [outprefix].grided.dge.tsv.gz
+
+
+
+#### Step 4. Generate digital expression matrix and associated spatial map.
+
+....
+
 - ...
 
 In addition, you will have the following additional files that may be helpful to understand the details of the data
