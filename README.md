@@ -33,11 +33,13 @@ The dataset used for Seq-Scope paper will be available in GEO and SRA, but in th
 
 
 ### Overall Workflow
-![Workflow](https://github.com/jyxi7676/Cho_Xi_Seqscope/edit/jyxi7676-patch-1/Workflow.png)
+This image shows the overall workflow for Seq-Scope data. And the following illustrations will introduce the implementations for each workflow section. Bash scripts can be found in script folder in this repo. 
+<p>
+    <img src="Workflow.png" width="1000" height="400" />
+</p>
 
-(I would put a diagram from powerpoint describe each step).
-### Tissue Boundary Estimation
-In this section, we process 1st-seq data to extract spatial coordinates and match the HDMIs from 1st-seq to HDMIs from 2nd-seq. The bash script takes two file paths and outputs in the current working directory
+### Tissue Boundary Estimation(Update the name)
+In this section, we process 1st-seq data to extract spatial coordinates and match the HDMIs from 1st-seq to HDMIs from 2nd-seq. The bash script takes two file paths as arguments and outputs files in the current working directory
 
  * Input files:
   ```
@@ -57,7 +59,7 @@ HDMI_SeqScope_2nd.txt
 ```
 To Visualize the spatial map of HDMI barcode,please run (update)
 ```
-update this
+update this!
 ```
 
 
@@ -65,7 +67,7 @@ update this
 In this subsection, we firstly preprocess the data and run alignment with reference genome using STARsolo. Then  the digital expression matrix(DGE) is binned into square grids with user defined side size.
 
 #### Alignment
-This step is to preprocess the fastq files and to  align the data
+This step is to preprocess the fastq files and to  align the data to reference genome
 * Input
 ```
 abc_SeqScope_2nd_R1.fastq.gz: Read1 from SeqScope_2nd files
