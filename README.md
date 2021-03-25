@@ -43,6 +43,8 @@ This image shows the overall workflow for Seq-Scope data. We will introduce the 
 
 ### Tissue Boundary Estimation
 In this section, we process 1st-seq data to extract spatial coordinates and match the HDMIs from 1st-seq to HDMIs from 2nd-seq and to visualize the tissue boundary captured by Seq-Scope compared to H&E images.  The bash script takes two file paths as arguments and outputs files in the current working directory. The tissueBoundaryPlot function visualize the tissue boundary.
+#### Preprosessing
+Firstly, we need to process our data with bash script extractCoord.sh, which can be found under script folder in this repository.
 
  * Input files:
   ```
@@ -57,12 +59,30 @@ chmod +x extractCoord.sh
 bash extractCoord.sh [abc_SeqScope_1st.fastq.gz] [abc_SeqScope_2nd_R1.fastq.gz] [20]
 ```
 * Output:
+
 ```
 spatialcoordinates.txt: Five columns representing 1st-Seq HDMIs, lane, tile, X, Y 
 whitelists.txt: This is the whitelists of HDMIs used for STARsolo alignment. If MiSeq is used for 1st-Seq, then whitelists are the reverse complementary of HDMIs in bottom tiles from 1st-Seq ; if HiSeq is used for 1st-Seq,  whitelists are the reverse complementary of HDMIs in all tiles in lane 2 from 1st-Seq.
 HDMI_SeqScope_2nd.txt
 ```
-To Visualize the spatial map of HDMI barcode and estimate the tissue boundary,please run estimateTissueBoundary function in the shell with inputs from extractCoord.sh as following: 
+#### Discovery plot of tissue boundary
+
+To Visualize the spatial map of HDMI barcode and estimate the tissue boundary, please run estimateTissueBoundary function within the shell. Please install the following python modules before running the script.
+* Required python modules
+  *  pands
+  *  os
+  *  sys
+  *  numpy
+  *  pandas
+  *  os
+  *  mpl_scatter_density
+  *  matplotlib
+  *  pylab
+  *  sys
+  
+
+The script estimateTissueBoundary.py can be found under script folder in this repository. Please download the script in your working directory and run it within the shell.
+
 * Input:
 ```
 [pos1stSeq]:  txt file with spatial information from 1st-Seq. The txt file have five columns representing 1st-Seq HDMIs, lane, tile, X, Y. We can use spatialcoordinates.txt from extractCoord.sh
