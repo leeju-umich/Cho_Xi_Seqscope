@@ -62,10 +62,23 @@ spatialcoordinates.txt: Five columns representing 1st-Seq HDMIs, lane, tile, X, 
 whitelists.txt: This is the whitelists of HDMIs used for STARsolo alignment. If MiSeq is used for 1st-Seq, then whitelists are the reverse complementary of HDMIs in bottom tiles from 1st-Seq ; if HiSeq is used for 1st-Seq,  whitelists are the reverse complementary of HDMIs in all tiles in lane 2 from 1st-Seq.
 HDMI_SeqScope_2nd.txt
 ```
-To Visualize the spatial map of HDMI barcode,please run (update)
+To Visualize the spatial map of HDMI barcode and estimate the tissue boundary,please run estimateTissueBoundary function in the shell with inputs from extractCoord.sh as following: 
+* Input:
 ```
-update this!
+[pos1stSeq]:  txt file with spatial information from 1st-Seq. The txt file have five columns representing 1st-Seq HDMIs, lane, tile, X, Y. We can use spatialcoordinates.txt from extractCoord.sh
+[hdmi2ndSeq]: txt file with HDMIs from the 2nd-Seq. We can use HDMI_SeqScope_2nd.txt from extractCoord.sh
+[maxScale]: vmax value for the colorbar. If not known, just put "Null" as input.
+[outpath]: path to output the plots
 ```
+* Code
+```
+python estimateTissueBoundary.py [pos1stSeq] [hdmi2ndSeq] [maxScale] [outpath]
+```
+* Output
+```
+tile*.png: The discovery plot can be uesd to compare with H&E images
+```
+
 
 
 ### STARsolo Alignment and Data Binning
