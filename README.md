@@ -29,7 +29,7 @@ The raw dataset used for Seq-Scope paper will be available in GEO and SRA, but i
   - mm10_ghi.gtf
   
 ### Install the packages (update)
-To install the R pacakge "xxx", please run the following:
+To install the R pacakge "SeqScopeTools", please run the following:
 ```
 install.xxxxx
 ```
@@ -55,6 +55,7 @@ Firstly, we need to process our data with bash script extractCoord.sh, which can
 
  * Codes:
 ```
+dos2unix extractCoord.sh
 chmod +x extractCoord.sh
 bash extractCoord.sh [abc_SeqScope_1st.fastq.gz] [abc_SeqScope_2nd_R1.fastq.gz] [20]
 ```
@@ -69,7 +70,6 @@ HDMI_SeqScope_2nd.txt
 
 To Visualize the spatial map of HDMI barcode and estimate the tissue boundary, please run estimateTissueBoundary function within the shell. Please install the following python modules before running the script.
 * Required python modules
-  *  pands
   *  os
   *  sys
   *  numpy
@@ -78,7 +78,6 @@ To Visualize the spatial map of HDMI barcode and estimate the tissue boundary, p
   *  mpl_scatter_density
   *  matplotlib
   *  pylab
-  *  sys
   
 
 The script estimateTissueBoundary.py can be found under script folder in this repository. Please download the script in your working directory and run it within the shell.
@@ -87,7 +86,7 @@ The script estimateTissueBoundary.py can be found under script folder in this re
 ```
 [pos1stSeq]:  txt file with spatial information from 1st-Seq. The txt file have five columns representing 1st-Seq HDMIs, lane, tile, X, Y. We can use spatialcoordinates.txt from extractCoord.sh
 [hdmi2ndSeq]: txt file with HDMIs from the 2nd-Seq. We can use HDMI_SeqScope_2nd.txt from extractCoord.sh
-[maxScale]: vmax value for the colorbar. If not known, just put "Null" as input.
+[maxScale]: vmax value for the colorbar; If not known, just put "Null" as input. Sometimes outliers exist and make it hard to visulize the tissue boundary. maxScale of colorbar helps with a better visualization
 [outpath]: path to output the plots
 ```
 * Code
@@ -105,7 +104,7 @@ tile*.png: The discovery plot can be uesd to compare with H&E images
 In this subsection, we firstly preprocess the data and run alignment with reference genome using STARsolo. Then  the digital expression matrix(DGE) is binned into square grids with user defined options.
 
 #### Alignment
-This step is to preprocess the fastq files and to  align the data to reference genome.The bash script takes in several user defined parameters and outputs STARsolo summary statistics, and DGE in the current directory. Note: Here we assume you already have the reference genome that is needed for STARsolo alignment. If not please refer to https://hbctraining.github.io/Intro-to-rnaseq-hpc-O2/lessons/03_alignment.html 
+This step is to preprocess the fastq files and to  align the data to reference genome.The bash script takes in several user defined parameters and outputs STARsolo summary statistics, and DGE in the current directory. Note: Here we assume you already have the reference genome that is needed for STARsolo alignment. If not please refer to https://hbctraining.github.io/Intro-to-rnaseq-hpc-O2/lessons/03_alignment.html. 
 * Input
 ```
 abc_SeqScope_2nd_R1.fastq.gz: Read1 from 2nd-Seq 
@@ -120,6 +119,7 @@ geneIndex: reference genome directory
 ```
 * Code
 ```
+dos2unix align.sh
 chmod +x align.sh
 bash align.sh [abc_SeqScope_2nd_R1.fastq.gz] [abc_SeqScope_2nd_R2.fastq.gz] [hdmilength] [whitelists.txt] [outprefix] [starpath] [seqtkpath] [geneIndex]
 ```
@@ -213,7 +213,33 @@ Downstream analysis(clustering,cell type mapping, etc) can be conducted using th
 
 
 ### SubCellular Analysis
+The DGE (matrix.mtx, barcodes.tsv, features.tsv) for subcellular analysis is under the folder of STARsolo alignment: DGE(xxx/Velocyto/raw/). In this step, we divide genes of spliced and unspliced into three groups and plot them in the sub-micrometer resolution to visulalize the spatial pattern. The script subCellularAna.py can be found under script folder in this repository. Please download subCellularAna.py in your working directory and run this within the shell.
 
+* Required python modules
+  *  os
+  *  sys
+  *  csv
+  *  gzip
+  *  scipy
+  *  numpy
+  *  pandas
+  *  seaborn
+  *  matplotlib
+  *  scprep
+
+* Input
+```
+[DGEdir]: directory of digital expression matrix from STARsolo alignment under Velocyto option (xxx/Velocyto/raw/)
+[spatial]: spatial coordinates 
+
+```
+* Code
+```
+
+```
+* Output
+```
+```
 
 
 
