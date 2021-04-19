@@ -4,7 +4,9 @@
 
 Seq-Scope is a spatial barcoding technology with a resolution almost comparable to an optical microscope. Seq-Scope is based on a solid-phase amplification of randomly barcoded single-molecule oligonucleotides using an Illumina sequencing-by-synthesis platform. The resulting clusters annotated with spatial coordinates are processed to expose RNA-capture moiety. These RNA-capturing barcoded clusters define the pixels of Seq-Scope that are approximately 0.7-1 μm apart from each other. For more information, please refer to the link (put paper link here???).
 
-This tutorial includes bash scripts that are used for preprocessing the data (tissue boundary detection, STARsolo alignment), and a R package "XXX" with functions to bin the data into square grids (not sure if we wanna do subcellular analysis). Bash script can be found  under BashScript folder in this repository. The R package "xxx" is still under active development.
+This is a brief tutorial that includes scripts used for the SeqScope paper. The bash script are used for preprocessing the data (tissue boundary detection, STARsolo alignment),python and R scipts to bin the data into square grids and conduct part of subcellular analysis. All script can be found under the script folder in this repository. 
+
+The users may need to modify the scripts by themselves to make it compatible to there experimental design. A more flexible and user-friendly software tool is under active deleopment. We will update this page when the new tool is ready. 
 
 ## Getting Started
 ### Required Sofware Tools
@@ -230,15 +232,34 @@ The DGE (matrix.mtx, barcodes.tsv, features.tsv) for subcellular analysis is und
 * Input
 ```
 [DGEdir]: directory of digital expression matrix from STARsolo alignment under Velocyto option (xxx/Velocyto/raw/)
+[workingdir]: working directory
 [spatial]: spatial coordinates 
-
+[seqscope1st]: string to indicaate if the seqscope1st file is from MiSeq or HiSeq
+[tiles]: array of tiles 
+[alpha]: transpanrency
+[vmin]: min value for color bar
+[vmax]: max value for color bar
 ```
 * Code
 ```
-
+python subCellularAna [DGEdir],[workingdir],[spatial],[seqscope1st],[tiles],[alpha],[vmin],[vmax])]
 ```
 * Output
 ```
+splice1_pos.csv
+splice2_pos.csv
+splice3_pos.csv
+unsplice1_pos.csv
+unsplice2_pos.csv
+unsplice3_pos.csv'
+
+xx.splice_subset_1.png
+xx.splice_subset_2.png
+xx.splice_subset_3.png
+xx.unsplice_subset_1.png
+xx.unsplice_subset_2.png
+xx.unsplice_subset_3.png
+
 ```
 
 
