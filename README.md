@@ -29,12 +29,7 @@ The raw dataset used for Seq-Scope paper will be available in GEO and SRA, but i
 * Reference sequence and STAR index ( include this??? )
   - mm10.fasta
   - mm10_ghi.gtf
-  
-### Install the packages (update)
-To install the R pacakge "SeqScopeTools", please run the following:
-```
-install.xxxxx
-```
+ 
 
 
 ### Overall Workflow
@@ -140,7 +135,7 @@ prefixSolo.out/Velocyto/raw/features.mtx
 #### Data Binning
 DGE(prefixSolo.out/GeneFull/raw/) from STARsolo are binned into square grids. In our paper, we tried simple square binning and sliding window binning. Simple square binning generate a super tile with the tiles that the users are insterested in. For sliding window binning, currently it is only available for sub-field of one tile. We would improve this and make updates in the near future.
 ##### Simple Square Binning
-The function getSimpleGrid in the package '' collapsed HDMIs within a square grids with user-defined grid side length.
+Please download the the script getSimpleGrids.R to your working directory and run the command within your shell.
 * Input
 ```
 [seqscope1st]: "MiSeq" or "HiSeq"
@@ -173,7 +168,8 @@ simpleSquareGrids.RDS
 ```
 The simpleSquareGrids stores the count matrix, meta information and the spatial coordinates in images slot.
 ##### Sliding window binning(sub-field)
-Sliding window grids are useful in doing cell type mapping. The function getSlidingGrid in the package '' collapsed HDMIs within a square grids with user-defined grid side length and a sliding window size. This version the sliding window function can be only ran on a small sub-field. We are currently working to improve the sliding window strategy and will update the package soon.
+Sliding window grids are useful in doing cell type mapping. Please download the script getSlidingGrids.R to your working directory and run the command within your shell.
+This script collapsed HDMIs within a square grids with user-defined grid side length and a sliding window size. This version the sliding window function can be only ran on a small sub-field. We are currently working on a more flexbile software with the flexibility to make the sliding window function scalable. We will have an update on this page when the package is available.
 
 * Input
 ```
