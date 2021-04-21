@@ -129,6 +129,20 @@ prefixSolo.out/Velocyto/raw/features.mtx
 ### Step2b: Data Binning
 DGE(prefixSolo.out/GeneFull/raw/) from STARsolo are binned into square grids. In our paper, we tried simple square binning and sliding window binning. Simple square binning generate a super tile with the tiles that the users are insterested in. For sliding window binning, currently it is only available for sub-field of one tile. We would improve this and make updates in the near future.
 
+Please install the following R packages before running the script.
+* Required R libraries
+  * Rcpp
+  * Matrix
+  * tictoc
+  * ggplot2
+  * ggsci
+  * Seurat
+  * rlist
+  * cowplot
+  * dplyr
+  * mapplots
+
+
 #### (i) Simple Square Binning
 Please download the the script getSimpleGrids.R to your working directory and run the command within your shell.
 * Input
