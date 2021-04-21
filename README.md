@@ -4,29 +4,29 @@ Seq-Scope is a spatial barcoding technology with a resolution almost comparable 
 
 This is a brief tutorial that includes scripts used for the SeqScope paper. The bash scripts are used for preprocessing the data (tissue boundary detection, STARsolo alignment), python and R scipts to bin the data into square grids and conduct part of subcellular analysis. All script can be found under the script folder in this repository. 
 
-**Note**:The users may need to modify the scripts by themselves to make it compatible to their experimental design. A more flexible and user-friendly software tool is under active development. We will update this page when the new tool is ready. 
+**Note**:All scripts are writen based on the SeqScope sequencing structure as indicated in our SeqScope paper. The users will need to modify the scripts by themselves to make it compatible to their experimental design. A more flexible and user-friendly software tool is under active development. We will update this page when the new tool is ready. 
 
 # Getting Started
 ## Required Sofware Tools
 
-You need to install the following software tools before using this pipeline. Linux operating system is necessary.
+You need to install the following software tools before using this pipeline. Linux operating system is necessary. All scripts are running wiithin the shell.
 * STARSolo>=2.7.5c
 * seqtk
 * R 
-* Python >3.0
+* Python >=3.0
 * perl
+* pigz
 
 ## Example Data
-The raw dataset used for Seq-Scope paper will be available in GEO and SRA (GSE169706). The annotated file and H&E images can be found at https://doi.org/10.7302/cjfe-wa35. Here we assume that you already have access to these example dataset. 
+The raw dataset used for Seq-Scope paper will be available in GEO and SRA (GSE169706). The annotated RDS file and H&E images can be found at https://doi.org/10.7302/cjfe-wa35. Here we assume that you already have access to these example dataset. 
 
 * 1st-seq data (typically from MiSeq)
   - abc_SeqScope_1st.fastq.gz
 * 2nd-seq data (typically from NovaSeq or HiSeq X)
   - abc_SeqScope_2nd_R1.fastq.gz
   - abc_SeqScope_2nd_R2.fastq.gz
-* Reference sequence and STAR index
-  - mm10.fasta
-  - mm10_ghi.gtf
+* Reference genome and STAR index
+  - mm10 under GenomeDir folder in this repository
  
 ## Overall Workflow
 This image shows the overall workflow for Seq-Scope data. We will introduce the implementations for each workflow section. 
@@ -38,7 +38,7 @@ This image shows the overall workflow for Seq-Scope data. We will introduce the 
 In this section, we process 1st-seq data to extract spatial coordinates and match the HDMIs from 1st-seq to HDMIs from 2nd-seq and to visualize the tissue boundary captured by Seq-Scope compared to H&E images. The bash script takes two file paths as arguments and outputs files in the current working directory. The tissueBoundaryPlot function visualize the tissue boundary.
 
 ### Step1a: Preprosessing
-First, we need to process our data with bash script extractCoord.sh, which can be found under script folder in this repository.
+First, we need to process our data with bash script extractCoord.sh, which can be found under script folder in this repository. 
 
  * Input files:
   ```
@@ -76,14 +76,14 @@ The script estimateTissueBoundary.py can be found under script folder in this re
 
 * Input:
 ```
-[pos1stSeq]:  txt file with spatial information from 1st-Seq. The txt file have five columns representing 1st-Seq HDMIs, lane, tile, X, Y. We can use spatialcoordinates.txt from extractCoord.sh
+[pos1stSeq]:  txt file with spatial information from 1st-Seq. The txt file have five columns representing 1st-Seq HDMIs, lane, tile, X, Y. We can use spatialcoordinates.txt from output of extractCoord.sh
 [hdmi2ndSeq]: txt file with HDMIs from the 2nd-Seq. We can use HDMI_SeqScope_2nd.txt from extractCoord.sh
 [maxScale]: vmax value for the colorbar; If not known, just put "Null" as input. Sometimes outliers exist and make it hard to visulize the tissue boundary. maxScale of colorbar helps with a better visualization
 [outpath]: path to output the plots
 ```
 * Code
 ```
-python estimateTissueBoundary.py [pos1stSeq] [hdmi2ndSeq] [maxScale] [outpath]
+python3 estimateTissueBoundary.py [pos1stSeq] [hdmi2ndSeq] [maxScale] [outpath]
 ```
 * Output
 ```
