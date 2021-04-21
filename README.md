@@ -4,7 +4,7 @@
 
 Seq-Scope is a spatial barcoding technology with a resolution almost comparable to an optical microscope. Seq-Scope is based on a solid-phase amplification of randomly barcoded single-molecule oligonucleotides using an Illumina sequencing-by-synthesis platform. The resulting clusters annotated with spatial coordinates are processed to expose RNA-capture moiety. These RNA-capturing barcoded clusters define the pixels of Seq-Scope that are approximately 0.5-1 μm apart from each other. For more information, please refer to the link (https://doi.org/10.1101/2021.01.25.427807).
 
-This is a brief tutorial that includes scripts used for the SeqScope paper. The bash script are used for preprocessing the data (tissue boundary detection, STARsolo alignment), python and R scipts to bin the data into square grids and conduct part of subcellular analysis. All script can be found under the script folder in this repository. 
+This is a brief tutorial that includes scripts used for the SeqScope paper. The bash scripts are used for preprocessing the data (tissue boundary detection, STARsolo alignment), python and R scipts to bin the data into square grids and conduct part of subcellular analysis. All script can be found under the script folder in this repository. 
 
 The users may need to modify the scripts by themselves to make it compatible to their experimental design. A more flexible and user-friendly software tool is under active development. We will update this page when the new tool is ready. 
 
