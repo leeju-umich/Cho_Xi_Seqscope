@@ -1,24 +1,22 @@
 # Seq-Scope Data Analysis Pipeline
 
-## Overview
-
 Seq-Scope is a spatial barcoding technology with a resolution almost comparable to an optical microscope. Seq-Scope is based on a solid-phase amplification of randomly barcoded single-molecule oligonucleotides using an Illumina sequencing-by-synthesis platform. The resulting clusters annotated with spatial coordinates are processed to expose RNA-capture moiety. These RNA-capturing barcoded clusters define the pixels of Seq-Scope that are approximately 0.5-1 μm apart from each other. For more information, please refer to the link (https://doi.org/10.1101/2021.01.25.427807).
 
 This is a brief tutorial that includes scripts used for the SeqScope paper. The bash scripts are used for preprocessing the data (tissue boundary detection, STARsolo alignment), python and R scipts to bin the data into square grids and conduct part of subcellular analysis. All script can be found under the script folder in this repository. 
 
-The users may need to modify the scripts by themselves to make it compatible to their experimental design. A more flexible and user-friendly software tool is under active development. We will update this page when the new tool is ready. 
+**Note**:The users may need to modify the scripts by themselves to make it compatible to their experimental design. A more flexible and user-friendly software tool is under active development. We will update this page when the new tool is ready. 
 
-## Getting Started
-### Required Sofware Tools
+# Getting Started
+## Required Sofware Tools
 
 You need to install the following software tools before using this pipeline. Linux operating system is necessary.
 * STARSolo>=2.7.5c
 * seqtk
 * R 
-* Python
+* Python >3.0
 * perl
 
-### Example Data
+## Example Data
 The raw dataset used for Seq-Scope paper will be available in GEO and SRA (GSE169706). The annotated file and H&E images can be found at https://doi.org/10.7302/cjfe-wa35. Here we assume that you already have access to these example dataset. 
 
 * 1st-seq data (typically from MiSeq)
@@ -30,16 +28,16 @@ The raw dataset used for Seq-Scope paper will be available in GEO and SRA (GSE16
   - mm10.fasta
   - mm10_ghi.gtf
  
-### Overall Workflow
+## Overall Workflow
 This image shows the overall workflow for Seq-Scope data. We will introduce the implementations for each workflow section. 
 <p>
     <img src="Workflow.png" width="1000" height="400" />
 </p>
 
-### Tissue Boundary Estimation
+## Step1: Tissue Boundary Estimation
 In this section, we process 1st-seq data to extract spatial coordinates and match the HDMIs from 1st-seq to HDMIs from 2nd-seq and to visualize the tissue boundary captured by Seq-Scope compared to H&E images. The bash script takes two file paths as arguments and outputs files in the current working directory. The tissueBoundaryPlot function visualize the tissue boundary.
 
-#### Preprosessing
+### Step1a: Preprosessing
 First, we need to process our data with bash script extractCoord.sh, which can be found under script folder in this repository.
 
  * Input files:
@@ -62,7 +60,7 @@ whitelists.txt: This is the whitelists of HDMIs used for STARsolo alignment. If 
 HDMI_SeqScope_2nd.txt
 ```
 
-#### Discovery plot of tissue boundary
+### Step1b: Discovery plot of tissue boundary
 To Visualize the spatial map of HDMI barcode and estimate the tissue boundary, please run estimateTissueBoundary function within the shell. Please install the following python modules before running the script.
 * Required python modules
   *  os
@@ -92,10 +90,10 @@ python estimateTissueBoundary.py [pos1stSeq] [hdmi2ndSeq] [maxScale] [outpath]
 tile*.png: The discovery plot can be uesd to compare with H&E images
 ```
 
-### STARsolo Alignment and Data Binning
+## Step2: STARsolo Alignment and Data Binning
 In this subsection, we first preprocess the data and run alignment with reference genome using STARsolo. Then the digital expression matrix (DGE) is binned into square grids with user defined options.
 
-#### Alignment
+### Step2a: Alignment
 This step is to preprocess the fastq files and to align the data to reference genome.The bash script takes several user defined parameters and produces STARsolo summary statistics, and DGE in the current directory. Note: Here we assume you already have the reference genome that is needed for STARsolo alignment. If not please refer to https://hbctraining.github.io/Intro-to-rnaseq-hpc-O2/lessons/03_alignment.html. 
 * Input
 ```
@@ -128,10 +126,10 @@ prefixSolo.out/Velocyto/raw/barcodes.mtx
 prefixSolo.out/Velocyto/raw/features.mtx
 ```
 
-#### Data Binning
+### Step2b: Data Binning
 DGE(prefixSolo.out/GeneFull/raw/) from STARsolo are binned into square grids. In our paper, we tried simple square binning and sliding window binning. Simple square binning generate a super tile with the tiles that the users are insterested in. For sliding window binning, currently it is only available for sub-field of one tile. We would improve this and make updates in the near future.
 
-##### Simple Square Binning
+#### (i) Simple Square Binning
 Please download the the script getSimpleGrids.R to your working directory and run the command within your shell.
 * Input
 ```
@@ -163,7 +161,7 @@ simpleSquareGrids.RDS
 ```
 The simpleSquareGrids stores the count matrix, meta information and the spatial coordinates in images slot.
 
-##### Sliding window binning (sub-field)
+#### (ii) Sliding window binning (sub-field)
 Sliding window grids are useful in doing high-resolution cell type mapping. Please download the script getSlidingGrids.R to your working directory and run the command within your shell.
 This script collapses HDMIs within a square grids with user-defined grid side length and a sliding window size. In this version, the sliding window function can be only run on a small sub-field. We are currently working on a more flexbile software with the flexibility to make the sliding window function scalable. We will have an update on this page when the package is available.
 * Input
