@@ -19,7 +19,7 @@ You need to install the following software tools before using this pipeline. Lin
 * perl
 
 ### Example Data
-The raw dataset used for Seq-Scope paper will be available in GEO and SRA (GSE169706). The annoated file and H&E images can be found at https://doi.org/10.7302/cjfe-wa35. Here we assume that you already have access to these example dataset. 
+The raw dataset used for Seq-Scope paper will be available in GEO and SRA (GSE169706). The annotated file and H&E images can be found at https://doi.org/10.7302/cjfe-wa35. Here we assume that you already have access to these example dataset. 
 
 * 1st-seq data (typically from MiSeq)
   - abc_SeqScope_1st.fastq.gz
