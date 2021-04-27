@@ -140,60 +140,8 @@ vmax=sys.argv[8]
 print(tiles)
 
 
-#subCellularAna(DGEdir,workingdir,spatial,seqscope1st,tiles,alpha,vmin,vmax)
+subCellularAna(DGEdir,workingdir,spatial,seqscope1st,tiles,alpha,vmin,vmax)
 
 
 
 
-
-
-
-    # unspliced_geneset1_df = unsplice.loc[unsplice['gene'].isin(geneset1_ind)]
-    # unspliced_geneset2_df = unsplice.loc[unsplice['gene'].isin(geneset2_ind)]
-    # unspliced_geneset3_df = unsplice.loc[unsplice['gene'].isin(geneset3_ind)]
-    # spliced_geneset1_df = splice.loc[splice['gene'].isin(geneset1_ind)]
-    # spliced_geneset2_df = splice.loc[splice['gene'].isin(geneset2_ind)]
-    # spliced_geneset3_df = splice.loc[splice['gene'].isin(geneset3_ind)]
-
-    # #Total UMI per HDMI for splice and unspliced separately
-    # spliceUMI_geneset1 = spliced_geneset1_df[['barcode','umi']].groupby(['barcode']).sum().reset_index()
-    # spliceUMI_geneset2 = spliced_geneset2_df[['barcode','umi']].groupby(['barcode']).sum().reset_index()
-    # spliceUMI_geneset3 = spliced_geneset3_df[['barcode','umi']].groupby(['barcode']).sum().reset_index()
-    # unspliceUMI_geneset1 = unspliced_geneset1_df[['barcode','umi']].groupby(['barcode']).sum().reset_index()
-    # unspliceUMI_geneset2 = unspliced_geneset2_df[['barcode','umi']].groupby(['barcode']).sum().reset_index()
-    # unspliceUMI_geneset3 = unspliced_geneset3_df[['barcode','umi']].groupby(['barcode']).sum().reset_index()
-    # barcode_df = pd.DataFrame({"BARCODE":bc,"barcodeInd":range(1,(len(bc)+1))})
-
-    # df_splice1=barcode_df.merge(spliceUMI_geneset1,how='inner',left_on="barcodeInd",right_on="barcode")
-    # df_splice2=barcode_df.merge(spliceUMI_geneset2,how='inner',left_on="barcodeInd",right_on="barcode")
-    # df_splice3=barcode_df.merge(spliceUMI_geneset3,how='inner',left_on="barcodeInd",right_on="barcode")
-
-    # df_unsplice1=barcode_df.merge(unspliceUMI_geneset1,how='inner',left_on="barcodeInd",right_on="barcode")
-    # df_unsplice2=barcode_df.merge(unspliceUMI_geneset2,how='inner',left_on="barcodeInd",right_on="barcode")
-    # df_unsplice3=barcode_df.merge(unspliceUMI_geneset3,how='inner',left_on="barcodeInd",right_on="barcode")
-
-
-
-    # splice1_pos = pd.merge(bottom, df_splice1, how="right",left_on='HDMI', right_on='BARCODE')
-    # splice2_pos = pd.merge(bottom, df_splice2, how="right",left_on='HDMI', right_on='BARCODE')
-    # splice3_pos = pd.merge(bottom, df_splice3, how="right",left_on='HDMI', right_on='BARCODE')
-
-    # unsplice1_pos = pd.merge(bottom, df_unsplice1, how="right",left_on='HDMI', right_on='BARCODE')
-    # unsplice2_pos = pd.merge(bottom, df_unsplice2, how="right",left_on='HDMI', right_on='BARCODE')
-    # unsplice3_pos = pd.merge(bottom, df_unsplice3, how="right",left_on='HDMI', right_on='BARCODE')
-
-
-
-    # pd.to_csv(splice1_pos,'splice1_pos.csv')
-    # pd.to_csv(splice2_pos,'splice2_pos.csv')
-    # pd.to_csv(splice3_pos,'splice3_pos.csv')
-    # pd.to_csv(unsplice1_pos,'unsplice1_pos.csv')
-    # pd.to_csv(unsplice2_pos,'unsplice2_pos.csv')
-    # pd.to_csv(unsplice3_pos,'unsplice3_pos.csv')
-
-    # subplot(splice1_pos,tiles,alpha,vmin,vmax,'splice_subset_1')
-    # subplot(splice1_pos,tiles,alpha,vmin,vmax,'splice_subset_2')
-    # subplot(splice1_pos,tiles,alpha,vmin,vmax,'splice_subset_3')
-    # subplot(unsplice1_pos,tiles,alpha,vmin,vmax,'unsplice_subset_1')
-    # subplot(unsplice2s_pos,tiles,alpha,vmin,vmax,'unsplice_subset_2')
-    # subplot(unsplice3_pos,tiles,alpha,vmin,vmax,'unsplice_subset_3')
