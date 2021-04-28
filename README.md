@@ -232,14 +232,16 @@ The DGE (matrix.mtx, barcodes.tsv, features.tsv) for subcellular analysis is und
 [workingdir]: working directory
 [spatial]: spatial coordinates 
 [seqscope1st]: string to indicaate if the seqscope1st file is from MiSeq or HiSeq
-[tiles]: array of tiles 
-[alpha]: transpanrency
-[vmin]: min value for color bar
-[vmax]: max value for color bar
+[tiles]: array of tiles, for example: 2106,2107,2108. Please use comma to separate the multiple tile numbers
+[alpha]: transpanrency, if unknown, please set to 0, the default alpha is 0.01
+[vmin]: min value for color bar, if unknown, please set to 0, the default vmin is 0
+[vmax]: max value for color bar, if unknown, please set to 0, the default vmax is 2
 ```
 * Code
 ```
-python subCellularAna [DGEdir],[workingdir],[spatial],[seqscope1st],[tiles],[alpha],[vmin],[vmax])]
+
+python3 subCellularAna [DGEdir],[workingdir],[spatial],[seqscope1st],[tiles],[alpha],[vmin],[vmax]
+
 ```
 * Output
 ```
@@ -250,12 +252,12 @@ unsplice1_pos.csv
 unsplice2_pos.csv
 unsplice3_pos.csv'
 
-xx.splice_subset_1.png
-xx.splice_subset_2.png
-xx.splice_subset_3.png
-xx.unsplice_subset_1.png
-xx.unsplice_subset_2.png
-xx.unsplice_subset_3.png
+splice_subset_1_tilexxxx.png
+splice_subset_2_tilexxxx.png
+splice_subset_3_tilexxxx.png
+unsplice_subset_1_tilexxxx.png
+unsplice_subset_2_tilexxxx.png
+unsplice_subset_3_tilexxxx.png
 
 ```
 
