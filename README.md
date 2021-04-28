@@ -78,7 +78,7 @@ The script estimateTissueBoundary.py can be found under script folder in this re
 ```
 [pos1stSeq]:  txt file with spatial information from 1st-Seq. The txt file have five columns representing 1st-Seq HDMIs, lane, tile, X, Y. We can use spatialcoordinates.txt from output of extractCoord.sh
 [hdmi2ndSeq]: txt file with HDMIs from the 2nd-Seq. We can use HDMI_SeqScope_2nd.txt from extractCoord.sh
-[maxScale]: vmax value for the colorbar; If not known, just put "Null" as input. Sometimes outliers exist and make it hard to visulize the tissue boundary. maxScale of colorbar helps with a better visualization
+[maxScale]: vmax value for the colorbar; If not known, just put 0 as input. Sometimes outliers exist and make it hard to visulize the tissue boundary. maxScale of colorbar helps with a better visualization
 [outpath]: path to output the plots
 ```
 * Code
