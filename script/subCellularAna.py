@@ -11,29 +11,29 @@ import matplotlib.colors as colors
 import scprep
 from sys import argv
 
+
 def subPlot(df_pos,tiles,alpha,vmin,vmax,title):
     """Function to plot unspliced or spliced genes on subcelullar resolution"""
     for i in tiles:
-        #print(i)
-        print(i)
-        print(df_pos.head())
         z = df_pos[df_pos.tile_miseq==int(i)]
-        print(z.head())
-        maxV = max(z['umi'])
-        minV = 0
-        centerV = 0.5
-        cmap = colors.LinearSegmentedColormap.from_list('', ['white','grey','black'])
-        norm = colors.DivergingNorm(vmin=minV, vcenter=centerV, vmax=maxV)
+        if z.empty==True:
+            next
+        else:
+ #            print(z.head())
+             maxV = max(z['umi'])
+             minV = 0
+             centerV = 0.5
+             cmap = colors.LinearSegmentedColormap.from_list('', ['white','grey','black'])
+             norm = colors.DivergingNorm(vmin=minV, vcenter=centerV, vmax=maxV)
 
-        fig, ax = plt.subplots()
-        fig.gca().set_aspect('equal', adjustable='box')
+             fig, ax = plt.subplots()
+             fig.gca().set_aspect('equal', adjustable='box')
 
-        points = ax.scatter(z['y_miseq'],z['x_miseq'], c=z['umi'], s=1 ,alpha=0.01,vmin=0,vmax=2,cmap = cmap,norm=norm)  #tune alpha and size parameter here
-        cbar = fig.colorbar(points, ax=ax,extend = 'max')
-        plt.title('tile' + str(i))
-        #plt.show()
-        plt.savefig(title+"tile"+str(i)+".png", dpi=500)
-        plt.show()
+             points = ax.scatter(z['y_miseq'],z['x_miseq'], c=z['umi'], s=1 ,alpha=0.01,vmin=0,vmax=2,cmap = cmap,norm=norm)  #tune alpha and size parameter here
+             cbar = fig.colorbar(points, ax=ax,extend = 'max')
+             plt.title('tile' + str(i))
+             plt.savefig(title+"_tile"+str(i)+".png", dpi=500)
+             plt.show()
 
 def getSubset(unspliced,spliced,geneInd,barcode_df,bottom):
     """Function to subset unspliced or spliced data"""
@@ -58,21 +58,17 @@ def subCellularAna(DGEdir,workingdir,spatial,seqscope1st,tiles,alpha,vmin,vmax):
         raise NameError('Not valide working directory')
     if os.path.isfile(spatial)==False:
         raise NameError('Not valide spatial file')
-    if alpha is None:
+
+    if alpha=='0':
         alpha=0.01
-    if vmin is None:
+    if vmin == '0':
         vmin=0
-    if vmax is None:
+    if vmax == '0':
         vmax=2
-
-
 
     miseq_pos = pd.read_csv(spatial,delim_whitespace=True, header=None)
     miseq_pos.columns = ['HDMI','lane_miseq','tile_miseq','x_miseq','y_miseq']
     tiles_cat = '|'.join(tiles)
-    print(tiles)
-    print(tiles_cat)
-#    tiles_cat ='|'.join([2106,2107])
     miseq_pos[miseq_pos['tile_miseq'].astype(str).str.contains(tiles_cat)]
     if seqscope1st=='MiSeq':
         bottom= miseq_pos[miseq_pos['tile_miseq']>=2000]    #This should be made more flexible
@@ -92,20 +88,17 @@ def subCellularAna(DGEdir,workingdir,spatial,seqscope1st,tiles,alpha,vmin,vmax):
                 bc.append(row[0])
     #Read  matrix.mtx and create splice and unsplice matrix
     m = pd.read_csv(r"matrix.mtx", sep=' ',skiprows=[0,1,2],header=None)
-    print(m.shape)
     splice=m[[0,1,2]]
     splice.columns = ['gene','barcode','umi']
-    print(splice.shape)
+    
     unsplice = m[[0,1,3]]
     unsplice.columns = ['gene','barcode','umi']
-    print(unsplice.shape)
-
+    
     #randomly divide the genes to three sets
     #set=[1,2,3]
     rng = np.random.default_rng()
     geneset_ind = np.array(np.arange(len(gene_names))+1)
     rng.shuffle(geneset_ind)
-    print(geneset_ind.shape)
     geneset_ind = np.array_split(geneset_ind,3)  #instead of np.split()
     geneset1_ind = geneset_ind[0]
     geneset2_ind = geneset_ind[1]
@@ -140,5 +133,6 @@ tiles = sys.argv[5].split(',')
 alpha=sys.argv[6]
 vmin=sys.argv[7]
 vmax=sys.argv[8]
+
 subCellularAna(DGEdir,workingdir,spatial,seqscope1st,tiles,alpha,vmin,vmax)
 
