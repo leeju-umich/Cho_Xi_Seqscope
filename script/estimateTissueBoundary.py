@@ -23,8 +23,6 @@ def readFiles(pos1stSeq,hdmi2ndSeq):
     return merge_df
 
 def using_mpl_scatter_density(fig, x, y,maxScale):
-        """density plot of HDMIs"""
-
     white_viridis = LinearSegmentedColormap.from_list('white_viridis', [
         (0, '#ffffff'),
         (1e-20, '#440053'),
@@ -33,9 +31,9 @@ def using_mpl_scatter_density(fig, x, y,maxScale):
     if maxScale is None:
         ax = fig.add_subplot(1, 1, 1, projection='scatter_density')
         density = ax.scatter_density(x, y, cmap=white_viridis)
-        else:
-            ax = fig.add_subplot(1, 1, 1, projection='scatter_density')
-            density = ax.scatter_density(x, y, cmap=white_viridis,vmax =maxScale)
+    else:
+        ax = fig.add_subplot(1, 1, 1, projection='scatter_density')
+        density = ax.scatter_density(x, y, cmap=white_viridis,vmax =maxScale)
     fig.colorbar(density, label='Number of points per pixel')
 
 
@@ -59,14 +57,16 @@ def estimateTissueBoundary(pos1stSeq,hdmi2ndSeq,maxScale,outpath):
     for i in tiles_uniq:
         x = merge_df[merge_df.tile.eq(i)]
         fig = plt.figure()
-        if maxScale == 0:
-            using_mpl_scatter_density(fig, x['y'], x['x'])
+        if maxScale == '0':
+            maxScale=None
+            using_mpl_scatter_density(fig, x['y'], x['x'],maxScale)
             plt.gca().set_aspect('equal', adjustable='box')
         #plt.savefig('tile'+str(i)+'.png',dpi=1000)
             plt.savefig('tile'+str(i)+'.png',dpi=1000)
             plt.show()
         else:
-            using_mpl_scatter_density(fig, x['y'], x['x'],maxScale)
+            print('hi')
+            using_mpl_scatter_density(fig, x['y'], x['x'],float(maxScale))
             
             plt.gca().set_aspect('equal', adjustable='box')
         #plt.savefig('tile'+str(i)+'.png',dpi=1000)
@@ -81,6 +81,3 @@ maxScale=sys.argv[3]
 outpath=sys.argv[4] 
 
 estimateTissueBoundary(pos1stSeq,hdmi2ndSeq,maxScale,outpath)
-
-
-
