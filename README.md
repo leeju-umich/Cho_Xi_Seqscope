@@ -144,7 +144,7 @@ Please install the following R packages before running the script.
 
 
 #### (i) Simple Square Binning
-Please download the the script getSimpleGrids.R to your working directory and run the command within your shell.
+Please download the the script getSimpleGrids.R and collapse.cpp to your working directory and run the command within your shell. 
 * Input
 ```
 [seqscope1st]: "MiSeq" or "HiSeq"
@@ -158,22 +158,14 @@ Please download the the script getSimpleGrids.R to your working directory and ru
 ```
 * Code
 ```
-#This is an exmaple codes
-DGEdir = '~/scrna/leejun/ngst/fastqs/HiSeq/ColonCombAll/analysis/align/ColonCombAll_Starsolo_trimA10_bottomSolo.out/Gene/raw'
-spatial = '~/scrna/leejun/ngst/fastqs/MiSeq-DraI-100pM-mbcore-RD4-revHDMIs-pos-uniq.txt'
-#colon: 
-tiles = c(2103:2106,2110:2114,2118:2119)
-nrow = 2
-ncol=6
-sidesize=300 #300units=10um
-outpath = '/net/fantasia/home/jyxi/scrna/leejun/ngst/fastqs/HiSeq/ColonCombAll/analysis/Seurat/grid_10um_Gene/'
-getCollapsedGrid('MiSeq',DGEdir,spatial,tiles,nrow,ncol,sidesize,outpath)
+Rscript getSimpleGrid.R [seqscope1st] [DGEdir] [spatial] [tiles],[nrow],[ncol],[sidesize],[outpath],[collapsePath])
 ```
 * Output
 ```
 simpleSquareGrids.RDS
+(other temporary files)
 ```
-The simpleSquareGrids stores the count matrix, meta information and the spatial coordinates in images slot.
+The simpleSquareGrids.RD stores the count matrix, meta information and the spatial coordinates in images slot.
 
 #### (ii) Sliding window binning (sub-field)
 Sliding window grids are useful in doing high-resolution cell type mapping. Please download the script getSlidingGrids.R to your working directory and run the command within your shell.
