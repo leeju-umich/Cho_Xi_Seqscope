@@ -24,7 +24,7 @@ then
 else 
 	paste <(zcat ./file1_trim.fastq.gz) <(zcat $file2) | perl -lane 'if ( $. % 4 == 1 ) { print "$F[0] $F[1]"; } elsif ( $. % 4 == 3 ) { print "+"; } else { print substr($F[0],0,20).substr($F[1],0,9).substr($F[0],50); }' > $file1_final
 
-
+fi
 #paste <(zcat $file1) <(zcat $file2) | perl -lane 'if ( $. % 4 == 1 ) { print "$F[0] $F[1]"; } elsif ( $. % 4 == 3 ) { print "+"; } else { print substr($F[0],0,30).substr($F[1],0,9).substr($F[0],50); }' > $file1_final
 #paste <(zcat $file1_trim) <(zcat $file2) | perl -lane 'if ( $. % 4 == 1 ) { print "$F[0] $F[1]"; } elsif ( $. % 4 == 3 ) { print "+"; } else { print substr($F[0],0,30).substr($F[1],0,9).substr($F[0],50); }' > $file1_final_fq
 
